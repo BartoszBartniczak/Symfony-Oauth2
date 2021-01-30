@@ -1,0 +1,13 @@
+sync:
+  defaults:
+    ignore:
+      paths:
+        - .idea
+        - .git
+  code:
+    alpha: "./"
+    beta: "docker://symfony-oauth2_php_1/var/www/html"
+    mode: "two-way-safe"
+    ignore:
+      vcs: true
+      paths:

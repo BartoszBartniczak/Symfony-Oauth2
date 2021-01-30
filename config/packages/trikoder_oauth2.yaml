@@ -1,0 +1,16 @@
+trikoder_oauth2:
+
+    authorization_server:
+        private_key: '%kernel.project_dir%/%env(string:JWT_PRIVATE_KEY)%'
+        private_key_passphrase: '%env(string:JWT_PASSPHRASE)%'
+
+        encryption_key: '%env(string:OAUTH2_ENCRYPTION_KEY)%'   # (Optional) Change this
+
+    resource_server:
+        public_key: '%kernel.project_dir%/%env(string:JWT_PUBLIC_KEY)%'
+
+    persistence:
+        doctrine:
+            entity_manager: default
+
+    scopes: ['client-api', 'admin-api']
