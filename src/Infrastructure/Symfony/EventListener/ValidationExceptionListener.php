@@ -3,14 +3,11 @@
 
 namespace App\Infrastructure\Symfony\EventListener;
 
-
 use App\Infrastructure\Symfony\Exception\ValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\VarDumper\VarDumper;
 
 class ValidationExceptionListener
 {
@@ -35,7 +32,7 @@ class ValidationExceptionListener
         // Customize your response object to display the exception details
         $response = new JsonResponse(
             (object)[
-                'message' => 'Validation error',
+                'errorMessage' => 'Validation error',
                 'validationErrors' => $errorMessages
             ],
         );

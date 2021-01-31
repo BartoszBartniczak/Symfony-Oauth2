@@ -3,20 +3,21 @@
 namespace App\Infrastructure\Symfony\Repository;
 
 use App\Domain\Entity\User;
-use App\Domain\Repository\UserRepository as DomainUserRepository;
+use App\Domain\Exception\PersistenceException;
+use App\Domain\Exception\User\UserAlreadyExists;
+use App\Domain\Exception\User\UserDoesNotExist;
+use App\Domain\Query\UserQuery;
+use App\Domain\Repository\UserWriteRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, DomainUserRepository
+
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, UserWriteRepository, UserQuery
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -37,37 +38,39 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByEmail(string $email): User
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $user = $this->_em->getRepository(User::class)
+            ->findOneBy(['email' => $email]);
 
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if (!$user instanceof User) {
+            throw new UserDoesNotExist();
+        }
+
+        return $user;
     }
-    */
-    public function saveNew(User $newUser):void
+
+    public function saveNew(User $newUser): void
     {
-        $this->_em->persist($newUser);
-        $this->_em->flush();
+        if($this->userExists($newUser)){
+            throw new UserAlreadyExists();
+        }
+
+        try {
+            $this->_em->persist($newUser);
+            $this->_em->flush();
+        } catch (OptimisticLockException | ORMException $ORMException) {
+            throw new PersistenceException('Cannot persist User', $ORMException);
+        }
+    }
+
+    private function userExists(User $newUser):bool
+    {
+        try{
+            $this->findByEmail($newUser->getEmail());
+            return true;
+        }catch (UserDoesNotExist){
+            return false;
+        }
     }
 }

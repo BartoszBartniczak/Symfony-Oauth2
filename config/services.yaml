@@ -30,14 +30,19 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Infrastructure\Symfony\EventListener\ExceptionListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
 
     App\Infrastructure\Symfony\EventListener\ValidationExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, priority: 10 }
+
+    App\Infrastructure\Symfony\EventListener\HandlerFailedListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 10 }
 
     App\Infrastructure\Symfony\EventListener\UserResolveListener:
         tags:
             - { name: kernel.event_listener, event: trikoder.oauth2.user_resolve, method: onUserResolve }
+
+    App\Infrastructure\Symfony\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
