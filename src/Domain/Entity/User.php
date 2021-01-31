@@ -2,6 +2,7 @@
 
 namespace App\Domain\Entity;
 
+use App\Domain\Event\UserHasBeenRegistered;
 use App\Infrastructure\Symfony\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -10,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  */
-class User implements UserInterface
+class User extends Entity implements UserInterface
 {
     /**
      * @ORM\Id
@@ -41,8 +42,10 @@ class User implements UserInterface
         $this->email = $email;
         $this->roles = $roles;
         $this->password = $password;
+        $this->events = [
+            new UserHasBeenRegistered($this)
+        ];
     }
-
 
     public function getId(): string
     {
@@ -98,7 +101,7 @@ class User implements UserInterface
         return (string) $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function changePassword(string $password): self
     {
         $this->password = $password;
 

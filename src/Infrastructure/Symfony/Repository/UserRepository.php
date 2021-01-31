@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Symfony\Repository;
 
 use App\Domain\Entity\User;
+use App\Domain\Repository\UserRepository as DomainUserRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, DomainUserRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -31,7 +32,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
 
-        $user->setPassword($newEncodedPassword);
+        $user->changePassword($newEncodedPassword);
         $this->_em->persist($user);
         $this->_em->flush();
     }
@@ -64,7 +65,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
-    public function saveNew(User $newUser)
+    public function saveNew(User $newUser):void
     {
         $this->_em->persist($newUser);
         $this->_em->flush();
