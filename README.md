@@ -12,11 +12,14 @@ This project was created to enable a simple start with Symfony and OAuth2 protoc
 There are two application scopes: User API and Admin API. 
 There are also two separate OAuth clients to simulate real life application, because this separation is the most common one.
 
+I use Domain Driven Development as project architecture.
+
 ### Project stack
 
 * PHP8
 * Symfony 5
 * Postgres 12
+* Nginx
 
 ### How to run this project
 

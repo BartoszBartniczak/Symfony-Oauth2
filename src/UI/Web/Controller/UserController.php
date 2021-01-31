@@ -44,8 +44,6 @@ class UserController extends AbstractController
     #[Route('/user', name: 'user_registration', methods: ['POST'])]
     public function register(CreateUser $dto): JsonResponse
     {
-        VarDumper::dump($dto);
-        die(__FILE__.':'.__LINE__);
 
         $newUser = new User($this->uuidService->generate(), $dto->email, '');
         $newUser->setPassword($this->passwordEncoder->encodePassword($newUser, $dto->password));
