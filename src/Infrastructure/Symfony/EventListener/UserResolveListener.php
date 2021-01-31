@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace App\Infrastructure\Symfony\EventListener;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;

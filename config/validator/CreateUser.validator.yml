@@ -1,0 +1,10 @@
+App\Application\DTO\CreateUser:
+  properties:
+    email:
+      - NotBlank: ~
+      - Email: ~
+    password:
+      - NotBlank: ~
+      - Length:
+          min: 6
+          max: 255

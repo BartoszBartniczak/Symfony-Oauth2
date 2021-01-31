@@ -126,6 +126,15 @@
     "php-http/message-factory": {
         "version": "v1.0.2"
     },
+    "phpdocumentor/reflection-common": {
+        "version": "2.2.0"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "5.2.2"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "1.4.0"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -254,9 +263,6 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
-    "symfony/orm-pack": {
-        "version": "v2.1.0"
-    },
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.22.0"
     },
@@ -270,6 +276,9 @@
         "version": "v1.22.0"
     },
     "symfony/polyfill-php80": {
+        "version": "v1.22.0"
+    },
+    "symfony/polyfill-uuid": {
         "version": "v1.22.0"
     },
     "symfony/property-access": {
@@ -322,6 +331,12 @@
     "symfony/security-http": {
         "version": "v5.2.2"
     },
+    "symfony/serializer": {
+        "version": "v5.2.2"
+    },
+    "symfony/serializer-pack": {
+        "version": "v1.0.4"
+    },
     "symfony/service-contracts": {
         "version": "v2.2.0"
     },
@@ -330,6 +345,25 @@
     },
     "symfony/string": {
         "version": "v5.2.2"
+    },
+    "symfony/translation-contracts": {
+        "version": "v2.3.0"
+    },
+    "symfony/uid": {
+        "version": "v5.2.2"
+    },
+    "symfony/validator": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "d902da3e4952f18d3bf05aab29512eb61cabd869"
+        },
+        "files": [
+            "config/packages/test/validator.yaml",
+            "config/packages/validator.yaml"
+        ]
     },
     "symfony/var-dumper": {
         "version": "v5.2.2"
@@ -352,5 +386,8 @@
             "config/packages/trikoder_oauth2.yaml",
             "config/routes/trikoder_oauth2.yaml"
         ]
+    },
+    "webmozart/assert": {
+        "version": "1.9.1"
     }
 }

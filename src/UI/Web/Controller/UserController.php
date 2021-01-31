@@ -1,25 +1,34 @@
 <?php
 
-namespace App\Controller;
+namespace App\UI\Web\Controller;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Application\DTO\CreateUser;
+use App\Domain\Entity\User;
+use App\Infrastructure\Symfony\Repository\UserRepository;
+use App\Application\Service\UUIDService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 class UserController extends AbstractController
 {
     private UserRepository $userRepository;
     private UserPasswordEncoderInterface $passwordEncoder;
+    /**
+     * @var UUIDService
+     */
+    private UUIDService $uuidService;
 
-    public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserRepository $userRepository,
+                                UserPasswordEncoderInterface $passwordEncoder,
+                                UUIDService $UUIDService)
     {
         $this->userRepository = $userRepository;
         $this->passwordEncoder = $passwordEncoder;
+        $this->uuidService = $UUIDService;
     }
 
     #[Route('/user', name: 'user', methods: ['GET'])]
@@ -31,13 +40,15 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user', name: 'user_registration', methods: ['POST'])]
-    public function register(Request $request):JsonResponse{
-        $requestData = json_decode($request->getContent(), true);
 
-        $newUser = new User();
-        $newUser->setEmail($requestData['email']);
-        $newUser->setPassword($this->passwordEncoder->encodePassword($newUser, $requestData['password']));
+    #[Route('/user', name: 'user_registration', methods: ['POST'])]
+    public function register(CreateUser $dto): JsonResponse
+    {
+        VarDumper::dump($dto);
+        die(__FILE__.':'.__LINE__);
+
+        $newUser = new User($this->uuidService->generate(), $dto->email, '');
+        $newUser->setPassword($this->passwordEncoder->encodePassword($newUser, $dto->password));
 
         $this->userRepository->saveNew($newUser);
 

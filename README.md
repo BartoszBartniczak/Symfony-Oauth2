@@ -39,17 +39,17 @@ docker-compose up -d
 docker-compose exec php bin/generate-keys
 ```
 
-4. Update database schema
+4. Install Composer dependencies
 ```bash
-docker-compose exec php bin/console doctrine:schema:update --force
+docker-compose exec php composer install
 ```
 
-5. Apply database migrations
+4. Apply database migrations
 ```bash
 docker-compose exec php bin/console doctrine:migrations:migrate -n
 ```
 
-6. Now you can create OAuth2 clients
+5. Now you can create OAuth2 clients
 ```bash
 docker-compose exec php bin/console trikoder:oauth2:create-client --scope client-api --grant-type password react-client-app
 docker-compose exec php bin/console trikoder:oauth2:create-client --scope admin-api --grant-type password react-admin-app
@@ -64,10 +64,41 @@ Example output
   react-client-app   750cf4114c889fc902da0253c1e5f87fee464ff41c9033c4904e598a7746f0b2dd3981fb62b2b2b6f7571e515c95e09a065e091ef922488eb4729571b1c3a1d8  
  ------------------ ----------------------------------------------------------------------------------------------------------------------------------
  ```
-
 > Tip: You can save secrets for further usage.
 > 
 > You also will find them in the `oauth2_client` table.
  
 > Another tip: If the secret cannot be stored securely, you can set `client_secret` to `NULL`. This often happens when you will send requests directly from user application, e.g. React or Angular application, and user can check request parameters in browser console. The `client_secret` is no longer secret, so you can omit it.
+> 
+> Read more: [https://developer.okta.com/blog/2018/06/29/what-is-the-oauth2-password-grant](https://developer.okta.com/blog/2018/06/29/what-is-the-oauth2-password-grant)
 
+In my examples I will omit `client_secret` to keep requests short and simple.
+
+7. Register a user
+
+Now you can register user with simple http request:
+```bash
+curl --location --request POST 'http://localhost/user' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "example@user.com",
+    "password": "zaq12wsx"
+}'
+```
+
+In response, you should get `201 Created` code, and empty response body.
+
+> Tip: You should protect this endpoint, from bots and accidental registration, in the "real app".
+
+8. Logging into `react-client-app` with OAuth2:
+
+```bash
+curl --location --request POST 'localhost/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'client_id=react-client-app' \
+--data-urlencode 'username=example@user.com' \
+--data-urlencode 'password=zaq12wsx'
+```
+
+> Note that, this is `application/x-www-form-urlencoded` request. This is the part of the OAuth2 protocol.
