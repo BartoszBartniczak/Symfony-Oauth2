@@ -16,9 +16,12 @@ class CreateUserCommand implements Command
         $this->dto = $dto;
     }
 
-    public function getDto(): CreateUserDTO
-    {
-        return $this->dto;
+    public function getEmail():string{
+        return $this->dto->email;
+    }
+    
+    public function getPassword():string{
+        return $this->dto->password;
     }
 
 }

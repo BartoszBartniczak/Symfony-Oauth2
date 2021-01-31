@@ -9,16 +9,16 @@ use App\Domain\Entity\User;
 class UserHasBeenRegistered implements Event
 {
 
-    private User $user;
+    private string $userId;
 
-    public function __construct(User $user)
+    public function __construct(string $userId)
     {
-        $this->user = $user;
+        $this->userId = $userId;
     }
 
-    public function getUser(): User
+    public function getUserId(): string
     {
-        return $this->user;
+        return $this->userId;
     }
 
 }

@@ -1,0 +1,4 @@
+App\Domain\Entity\User:
+  attributes:
+    email:
+      groups: ['client-api']

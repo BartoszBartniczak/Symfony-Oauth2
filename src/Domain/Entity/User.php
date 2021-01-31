@@ -6,6 +6,7 @@ use App\Domain\Event\UserHasBeenRegistered;
 use App\Infrastructure\Symfony\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -43,7 +44,7 @@ class User extends Entity implements UserInterface
         $this->roles = $roles;
         $this->password = $password;
         $this->events = [
-            new UserHasBeenRegistered($this)
+            new UserHasBeenRegistered($this->getId())
         ];
     }
 

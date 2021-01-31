@@ -12,7 +12,7 @@ This project was created to enable a simple start with Symfony and OAuth2 protoc
 There are two application scopes: User API and Admin API. 
 There are also two separate OAuth clients to simulate real life application, because this separation is the most common one.
 
-I use Domain Driven Development as project architecture and Command Query Responsibility Separation. 
+I use Domain Driven Development as project architecture and Command Query Responsibility Separation with Symfony Messenger. 
 
 ### Project stack
 
@@ -54,8 +54,8 @@ docker-compose exec php bin/console doctrine:migrations:migrate -n
 
 5. Now you can create OAuth2 clients
 ```bash
-docker-compose exec php bin/console trikoder:oauth2:create-client --scope client-api --grant-type password react-client-app
-docker-compose exec php bin/console trikoder:oauth2:create-client --scope admin-api --grant-type password react-admin-app
+docker-compose exec php bin/console trikoder:oauth2:create-client --scope client_api --grant-type password react-client-app
+docker-compose exec php bin/console trikoder:oauth2:create-client --scope admin_api --grant-type password react-admin-app
 ```                                          
 Example output
 ```bash                                                                             
@@ -105,3 +105,4 @@ curl --location --request POST 'localhost/token' \
 ```
 
 > Note that, this is `application/x-www-form-urlencoded` request. This is the part of the OAuth2 protocol.
+

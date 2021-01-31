@@ -33,8 +33,8 @@ class CreateUserHandler extends CommandHandler
     public function __invoke(CreateUserCommand $command)
     {
         $id = $this->uuidService->generate();
-        $user = new User($id, $command->getDto()->email, '');
-        $user->changePassword($this->passwordEncoder->encodePassword($user, $command->getDto()->password));
+        $user = new User($id, $command->getEmail(), '');
+        $user->changePassword($this->passwordEncoder->encodePassword($user, $command->getPassword()));
 
         $this->userRepository->saveNew($user);
         $this->eventDispatcher->dispatch($user->raiseEvents());

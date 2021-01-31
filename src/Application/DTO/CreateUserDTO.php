@@ -3,7 +3,7 @@
 
 namespace App\Application\DTO;
 
-class CreateUserDTO implements DataTransferObject
+final class CreateUserDTO implements DataTransferObject
 {
 
     public string $email;

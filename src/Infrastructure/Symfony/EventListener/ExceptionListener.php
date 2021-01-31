@@ -27,7 +27,6 @@ class ExceptionListener
 
         // Customize your response object to display the exception details
         $response = new JsonResponse();
-        $response->setContent('Internal Server Error');
 
         // HttpExceptionInterface is a special type of exception that
         // holds status code and header details

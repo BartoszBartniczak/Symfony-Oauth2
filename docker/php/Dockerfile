@@ -11,4 +11,6 @@ RUN php -r "unlink('composer-setup.php');"
 RUN wget https://get.symfony.com/cli/installer -O - | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
 WORKDIR /var/www/html

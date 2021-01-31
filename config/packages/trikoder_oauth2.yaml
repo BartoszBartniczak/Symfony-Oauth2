@@ -13,4 +13,4 @@ trikoder_oauth2:
         doctrine:
             entity_manager: default
 
-    scopes: ['client-api', 'admin-api']
+    scopes: ['client_api', 'admin_api']
