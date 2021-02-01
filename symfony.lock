@@ -171,6 +171,9 @@
     "symfony/amqp-messenger": {
         "version": "v5.2.2"
     },
+    "symfony/browser-kit": {
+        "version": "v5.2.2"
+    },
     "symfony/cache": {
         "version": "v5.2.2"
     },
@@ -192,6 +195,9 @@
             "bin/console"
         ]
     },
+    "symfony/css-selector": {
+        "version": "v5.2.2"
+    },
     "symfony/dependency-injection": {
         "version": "v5.2.2"
     },
@@ -202,6 +208,9 @@
         "version": "v5.2.2"
     },
     "symfony/doctrine-messenger": {
+        "version": "v5.2.2"
+    },
+    "symfony/dom-crawler": {
         "version": "v5.2.2"
     },
     "symfony/dotenv": {

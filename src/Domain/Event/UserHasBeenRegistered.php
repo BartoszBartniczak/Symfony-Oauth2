@@ -3,9 +3,6 @@
 
 namespace App\Domain\Event;
 
-
-use App\Domain\Entity\User;
-
 class UserHasBeenRegistered implements Event
 {
 

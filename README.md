@@ -23,12 +23,12 @@ I use Domain Driven Development as project architecture and Command Query Respon
 
 ### How to run this project
 
-1. Build the project
+**1. Build the project**
 ```bash
 docker-compose build
 ```
 
-2. Run the project
+**2. Run the project**
 ```bash
 docker-compose up -d
 ```
@@ -37,22 +37,22 @@ docker-compose up -d
 > mutagen project start
 > ```
 
-3. Generate RSA keys for JWT
+**3. Generate RSA keys for JWT**
 ```bash
 docker-compose exec php bin/generate-keys
 ```
 
-4. Install Composer dependencies
+**4. Install Composer dependencies**
 ```bash
 docker-compose exec php composer install
 ```
 
-4. Apply database migrations
+**5. Apply database migrations**
 ```bash
 docker-compose exec php bin/console doctrine:migrations:migrate -n
 ```
 
-5. Now you can create OAuth2 clients
+**6. Now you can create OAuth2 clients**
 ```bash
 docker-compose exec php bin/console trikoder:oauth2:create-client --scope client_api --grant-type password react-client-app
 docker-compose exec php bin/console trikoder:oauth2:create-client --scope admin_api --grant-type password react-admin-app
@@ -77,7 +77,7 @@ Example output
 
 In my examples I will omit `client_secret` to keep requests short and simple.
 
-7. Register a user
+**7. Register a user**
 
 Now you can register user with simple http request:
 ```bash
@@ -93,7 +93,7 @@ In response, you should get `201 Created` code, and empty response body.
 
 > Tip: You should protect this endpoint, from bots and accidental registration, in the "real app".
 
-8. Logging into `react-client-app` with OAuth2:
+**8. Logging into `react-client-app` with OAuth2:**
 
 ```bash
 curl --location --request POST 'localhost/token' \
@@ -106,3 +106,8 @@ curl --location --request POST 'localhost/token' \
 
 > Note that, this is `application/x-www-form-urlencoded` request. This is the part of the OAuth2 protocol.
 
+In response you will get `access_token` and `refresh_token`:
+
+```bash
+
+```
