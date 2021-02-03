@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Symfony\EventListener;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Trikoder\Bundle\OAuth2Bundle\Event\UserResolveEvent;
 
@@ -20,12 +21,12 @@ final class UserResolveListener
 
     public function onUserResolve(UserResolveEvent $event): void
     {
-        $user = $this->userProvider->loadUserByUsername($event->getUsername());
-
-        if (null === $user) {
+        try {
+            $user = $this->userProvider->loadUserByUsername($event->getUsername());
+        }catch (UsernameNotFoundException){
             return;
         }
-
+        
         if (!$this->userPasswordEncoder->isPasswordValid($user, $event->getPassword())) {
             return;
         }

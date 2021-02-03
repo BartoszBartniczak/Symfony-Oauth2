@@ -6,8 +6,12 @@ namespace App\Application\DTO;
 final class CreateUserDTO implements DataTransferObject
 {
 
-    public string $email;
+    public function __construct(
+        public string $email,
+        public string $password,
+    )
+    {
+    }
 
-    public string $password;
 
 }

@@ -11,12 +11,11 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\VarDumper\VarDumper;
 
-class HandlerFailedListener
+final class HandlerFailedListener
 {
 
     public function onKernelException(ExceptionEvent $event)
     {
-        // You get the exception object from the received event
         $exception = $event->getThrowable();
 
         if (!$exception instanceof HandlerFailedException) {
@@ -29,20 +28,13 @@ class HandlerFailedListener
             return;
         }
 
-
-        // Customize your response object to display the exception details
         $response = new JsonResponse(
             (object)[
                 'errorMessage' => $this->getMessage($domainException),
             ],
         );
 
-        // HttpExceptionInterface is a special type of exception that
-        // holds status code and header details
-
         $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-
-        // sends the modified response object to the event
         $event->setResponse($response);
     }
 

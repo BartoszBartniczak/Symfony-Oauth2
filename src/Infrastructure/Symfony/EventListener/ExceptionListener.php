@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
-class ExceptionListener
+final class ExceptionListener
 {
 
     private LoggerInterface $logger;
@@ -35,6 +35,7 @@ class ExceptionListener
             $response->headers->replace($exception->getHeaders());
         } else {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent(json_encode(['error' => 'Internal Server Error']));
         }
 
         // sends the modified response object to the event

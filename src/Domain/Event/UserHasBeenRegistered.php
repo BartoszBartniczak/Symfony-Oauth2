@@ -6,11 +6,8 @@ namespace App\Domain\Event;
 class UserHasBeenRegistered implements Event
 {
 
-    private string $userId;
-
-    public function __construct(string $userId)
+    public function __construct(private string $userId)
     {
-        $this->userId = $userId;
     }
 
     public function getUserId(): string

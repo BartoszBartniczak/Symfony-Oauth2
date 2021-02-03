@@ -8,7 +8,7 @@ use App\Application\Command\CreateUserCommand;
 use App\Application\Service\EventDispatcher;
 use App\Application\Service\UUIDService;
 use App\Domain\Entity\User;
-use App\Domain\Exception\User\UserAlreadyExists;
+use App\Domain\Event\UserHasBeenRegistered;
 use App\Domain\Repository\UserWriteRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -20,7 +20,7 @@ class CreateUserHandler extends CommandHandler
     private EventDispatcher $eventDispatcher;
 
     public function __construct(UserWriteRepository $userRepository,
-                                UserPasswordEncoderInterface $passwordEncoder,
+                                UserPasswordEncoderInterface $passwordEncoder, //TODO password service
                                 UUIDService $uuidService,
                                 EventDispatcher $eventDispatcher)
     {
@@ -33,11 +33,11 @@ class CreateUserHandler extends CommandHandler
     public function __invoke(CreateUserCommand $command)
     {
         $id = $this->uuidService->generate();
-        $user = new User($id, $command->getEmail(), '');
+        $user = new User($id, $command->getEmail(), '', ['ROLE_USER']);
         $user->changePassword($this->passwordEncoder->encodePassword($user, $command->getPassword()));
 
         $this->userRepository->saveNew($user);
-        $this->eventDispatcher->dispatch($user->raiseEvents());
+        $this->eventDispatcher->dispatch(new UserHasBeenRegistered($user->getId()));
     }
 
 

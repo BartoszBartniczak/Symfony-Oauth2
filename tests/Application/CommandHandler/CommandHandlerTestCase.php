@@ -13,20 +13,15 @@ use Symfony\Component\VarDumper\VarDumper;
 abstract class CommandHandlerTestCase extends TestCase
 {
 
-    public function assertDispatchedEvents(EventDispatcher|MockObject $eventDispatcher, array $expectedEvents)
-    {
+    /**
+     * @param string[] $events
+     */
+    protected function assertDispatchedEvents(EventDispatcher|MockObject $eventDispatcher, array $events){
 
-        $eventDispatcher->expects($this->once())
-            ->method('dispatch')
-            ->willReturnCallback(function (array $events) use ($expectedEvents): void {
-
-                $eventMap = array_map(function (Event $event) {
-                    return get_class($event);
-                }, $events);
-
-                $this->assertSame($eventMap, $expectedEvents);
-
-            });
+        foreach ($events as $eventClass){
+            $eventDispatcher->method('dispatch')
+                ->willReturnCallback(fn(Event $event) => $this->assertInstanceOf($eventClass, $event));
+        }
 
     }
 

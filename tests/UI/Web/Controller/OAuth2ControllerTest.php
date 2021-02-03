@@ -36,7 +36,7 @@ class OAuth2ControllerTest extends WebTestCase
         $this->assertArrayHasKey('refresh_token', $responseData);
 
         $this->assertSame('Bearer', $responseData['token_type']);
-        $this->assertSame(3600, $responseData['expires_in']);
+        $this->assertTrue(3590 < $responseData['expires_in'] && $responseData['expires_in'] < 3610);
         $this->assertMatchesRegularExpression('/e(y|w)[^.]+\.e(y|w)[^.]+\.[^.]+/', $responseData['access_token']);
         $this->assertMatchesRegularExpression('/[a-z0-9]{36,}/', $responseData['refresh_token']);
 

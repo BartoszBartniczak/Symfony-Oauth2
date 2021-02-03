@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\Validator\ConstraintViolation;
 
-class ValidationExceptionListener
+final class ValidationExceptionListener
 {
 
     public function onKernelException(ExceptionEvent $event)
@@ -33,7 +33,7 @@ class ValidationExceptionListener
         $response = new JsonResponse(
             (object)[
                 'errorMessage' => 'Validation error',
-                'validationErrors' => $errorMessages
+                'validationMessages' => $errorMessages
             ],
         );
 

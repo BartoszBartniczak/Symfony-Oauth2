@@ -16,9 +16,7 @@ class CreateUserCommandTest extends TestCase
 
     protected function setUp(): void
     {
-        $dto = new CreateUserDTO();
-        $dto->email = 'user@test.com';
-        $dto->password = 'secret';
+        $dto = new CreateUserDTO('user@test.com', 'secret');
 
         $this->command = new CreateUserCommand($dto);
     }

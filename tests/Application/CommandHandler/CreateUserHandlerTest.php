@@ -11,7 +11,6 @@ use App\Domain\Repository\UserWriteRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @coversDefaultClass \App\Application\CommandHandler\CreateUserHandler

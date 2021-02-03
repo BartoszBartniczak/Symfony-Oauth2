@@ -4,9 +4,10 @@
 namespace App\Infrastructure\Symfony\Exception;
 
 
+use App\Infrastructure\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-class ValidationException extends \InvalidArgumentException
+class ValidationException extends InvalidArgumentException
 {
 
     private ConstraintViolationListInterface $constraintViolationList;

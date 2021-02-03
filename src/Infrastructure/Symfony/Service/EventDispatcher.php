@@ -5,6 +5,7 @@ namespace App\Infrastructure\Symfony\Service;
 
 
 use App\Application\Service\EventDispatcher as EventDispatcherInterface;
+use App\Domain\Event\Event;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class EventDispatcher implements EventDispatcherInterface
@@ -17,11 +18,9 @@ class EventDispatcher implements EventDispatcherInterface
         $this->messageBus = $messageBus;
     }
 
-    public function dispatch(array $events): void
+    public function dispatch(Event $event): void
     {
-        foreach ($events as $event) {
-            $this->messageBus->dispatch($event);
-        }
+        $this->messageBus->dispatch($event);
     }
 
 }

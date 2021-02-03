@@ -19,6 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, UserWriteRepository, UserQuery
 {
+    
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
@@ -59,12 +60,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         try {
             $this->_em->persist($newUser);
             $this->_em->flush();
-        } catch (OptimisticLockException | ORMException $ORMException) {
+        } catch (ORMException $ORMException) {
             throw new PersistenceException('Cannot persist User', $ORMException);
         }
     }
 
-    private function userExists(User $newUser):bool
+    protected function userExists(User $newUser):bool
     {
         try{
             $this->findByEmail($newUser->getEmail());

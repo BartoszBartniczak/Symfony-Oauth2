@@ -37,6 +37,6 @@ class EventDispatcherTest extends TestCase
             ->with($event)
             ->willReturn(new Envelope($event));
 
-        $this->eventDispatcher->dispatch([$event]);
+        $this->eventDispatcher->dispatch($event);
     }
 }

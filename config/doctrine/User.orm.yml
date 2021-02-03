@@ -1,0 +1,22 @@
+App\Domain\Entity\User:
+  type: entity
+  repositoryClass: App\Infrastructure\Symfony\Repository\UserRepository
+  table: '"user"'
+
+  id:
+    id:
+      type: guid
+      generator:
+        strategy: NONE
+
+  fields:
+    email:
+      type: string
+      length: 180
+      unique: true
+
+    roles:
+      type: json
+
+    password:
+      type: string
