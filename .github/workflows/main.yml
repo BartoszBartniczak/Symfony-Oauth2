@@ -38,7 +38,8 @@ jobs:
       - name: Upload vendor
         uses: actions/upload-artifact@v2
         with:
-          name: vendor.zip
+          name: vendor
+          path: vendor.zip
 
   test:
     runs-on: ubuntu-latest
@@ -49,7 +50,8 @@ jobs:
       - name: Download vendor
         uses: actions/download-artifact@v2
         with:
-          name: vendor.zip
+          name: vendor
+          path: vendor.zip
 
       - name: Unzip vendor
         uses: montudor/action-zip@v0.1.1
