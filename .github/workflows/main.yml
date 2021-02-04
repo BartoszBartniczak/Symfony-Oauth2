@@ -35,7 +35,5 @@ jobs:
 
       - name: Create example OAuth2 Apps
         run: |
-        docker-compose exec php bin/console trikoder:oauth2:create-client --public --scope client_api --grant-type password react-client-app
-        docker-compose exec php bin/console trikoder:oauth2:create-client --public --scope admin_api --grant-type password react-admin-app
-
-
+          docker-compose exec php bin/console trikoder:oauth2:create-client --public --scope client_api --grant-type password react-client-app
+          docker-compose exec php bin/console trikoder:oauth2:create-client --public --scope admin_api --grant-type password react-admin-app
