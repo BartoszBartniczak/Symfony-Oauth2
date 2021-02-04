@@ -4,8 +4,10 @@
 namespace App\Infrastructure\Symfony\Service;
 
 
+use App\Application\Exception\CommandHandlerFailed;
 use App\Application\Service\EventDispatcher as EventDispatcherInterface;
 use App\Domain\Event\Event;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class EventDispatcher implements EventDispatcherInterface
@@ -20,7 +22,11 @@ class EventDispatcher implements EventDispatcherInterface
 
     public function dispatch(Event $event): void
     {
-        $this->messageBus->dispatch($event);
+        try {
+            $this->messageBus->dispatch($event);
+        }catch (HandlerFailedException $handlerFailedException){
+            throw new CommandHandlerFailed('', null, $handlerFailedException);
+        }
     }
 
 }

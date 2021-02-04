@@ -4,6 +4,7 @@
 namespace App\Infrastructure\Symfony\EventListener;
 
 
+use App\Application\Exception\CommandHandlerFailed;
 use App\Domain\Exception\DomainException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,12 +18,18 @@ final class HandlerFailedListener
     public function onKernelException(ExceptionEvent $event)
     {
         $exception = $event->getThrowable();
-
-        if (!$exception instanceof HandlerFailedException) {
+        
+        if(!$exception instanceof CommandHandlerFailed){
+            return;
+        }
+        
+        $handlerFailed = $exception->getPrevious();
+        
+        if (!$handlerFailed instanceof HandlerFailedException) {
             return;
         }
 
-        $domainException = $exception->getPrevious();
+        $domainException = $handlerFailed->getPrevious();
 
         if (!$domainException instanceof DomainException) {
             return;

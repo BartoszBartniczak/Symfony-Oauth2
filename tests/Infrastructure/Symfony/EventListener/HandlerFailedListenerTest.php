@@ -2,6 +2,7 @@
 
 namespace App\Tests\Infrastructure\Symfony\EventListener;
 
+use App\Application\Exception\CommandHandlerFailed;
 use App\Domain\Exception\DomainException;
 use App\Domain\Exception\User\UserAlreadyExists;
 use App\Infrastructure\Symfony\EventListener\HandlerFailedListener;
@@ -36,9 +37,11 @@ class HandlerFailedListenerTest extends TestCase
         $envelope = new Envelope(new \stdClass());
         $handlerFailedException = new HandlerFailedException($envelope, [$domainException]);
         
+        $commandHandlerFailed = new CommandHandlerFailed('', null, $handlerFailedException);
+        
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = $this->createMock(Request::class);
-        $exceptionEvent = new ExceptionEvent($kernel, $request, 1, $handlerFailedException);
+        $exceptionEvent = new ExceptionEvent($kernel, $request, 1, $commandHandlerFailed);
         
         $this->handler->onKernelException($exceptionEvent);
         
@@ -57,10 +60,11 @@ class HandlerFailedListenerTest extends TestCase
 
         $envelope = new Envelope(new \stdClass());
         $handlerFailedException = new HandlerFailedException($envelope, [$domainException]);
+        $commandHandlerFailed = new CommandHandlerFailed('', null, $handlerFailedException);
 
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = $this->createMock(Request::class);
-        $exceptionEvent = new ExceptionEvent($kernel, $request, 1, $handlerFailedException);
+        $exceptionEvent = new ExceptionEvent($kernel, $request, 1, $commandHandlerFailed);
 
         $this->handler->onKernelException($exceptionEvent);
 
@@ -79,9 +83,11 @@ class HandlerFailedListenerTest extends TestCase
         $envelope = new Envelope(new \stdClass());
         $handlerFailedException = new HandlerFailedException($envelope, [$invalidArgumentException]);
 
+        $commandHandlerFailed = new CommandHandlerFailed('', null, $handlerFailedException);
+
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = $this->createMock(Request::class);
-        $exceptionEvent = new ExceptionEvent($kernel, $request, 1, $handlerFailedException);
+        $exceptionEvent = new ExceptionEvent($kernel, $request, 1, $commandHandlerFailed);
 
         $responseBefore = $exceptionEvent->getResponse();
         $this->handler->onKernelException($exceptionEvent);
@@ -93,11 +99,12 @@ class HandlerFailedListenerTest extends TestCase
      */
     public function testOnKernelExceptionExitsIfExceptionIsNotHandlerFailedException()
     {
-        $handlerFailedException = new \InvalidArgumentException();
-
+        $invalidArgumentException = new \InvalidArgumentException();
+        $commandHandlerFailed = new CommandHandlerFailed($invalidArgumentException);
+        
         $kernel = $this->createMock(HttpKernelInterface::class);
         $request = $this->createMock(Request::class);
-        $exceptionEvent = new ExceptionEvent($kernel, $request, 1, $handlerFailedException);
+        $exceptionEvent = new ExceptionEvent($kernel, $request, 1, $commandHandlerFailed);
 
         $responseBefore = $exceptionEvent->getResponse();
         $this->handler->onKernelException($exceptionEvent);
