@@ -28,10 +28,11 @@ jobs:
         run: docker-compose up -d
 
       - name: Install composer dependencies
-        run: docker-compose exec php composer install
+        run: docker-compose exec -it php composer install
 
   test:
     runs-on: ubuntu-latest
+    needs: [build]
 
     steps:
 
