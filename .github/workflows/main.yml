@@ -28,7 +28,7 @@ jobs:
         run: docker-compose up -d
 
       - name: Install composer dependencies
-        run: docker-compose exec -it php composer install
+        run: docker-compose exec -T php composer install
 
       - name: Upload vendor
         uses: actions/upload-artifact@v2
@@ -49,9 +49,10 @@ jobs:
           path: vendor
 
       - name: Generate RSA keys for JWT
-        run: docker-compose exec -it php bin/generate-keys
+        run: docker-compose exec -T php bin/generate-keys
 
       - name: Create example OAuth2 Apps
         run: docker-compose exec php bin/console doctrine:migrations:migrate -n
+
 
 
