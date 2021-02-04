@@ -29,6 +29,8 @@ jobs:
 
       - name: Install composer dependencies
         run: docker-compose exec -T php composer install --no-interaction
+
+      - name: Zip vendor
         uses: montudor/action-zip@v0.1.1
         with:
           args: zip -qq -r vendor.zip vendor
