@@ -1,4 +1,14 @@
 #!/bin/bash
 
-openssl genrsa -aes128 -passout pass:${JWT_PASSPHRASE} -out ${JWT_PRIVATE_KEY} 2048
+openssl req \
+    -new \
+    -newkey rsa:4096 \
+    -days 365 \
+    -nodes \
+    -x509 \
+    -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com" \
+    -keyout ${JWT_PRIVATE_KEY} \
+    -out ${JWT_CERT} \
+    -passin pass:${JWT_PASSPHRASE}
+
 openssl rsa -in ${JWT_PRIVATE_KEY} -passin pass:${JWT_PASSPHRASE} -pubout -out ${JWT_PUBLIC_KEY}

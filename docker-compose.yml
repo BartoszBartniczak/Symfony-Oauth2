@@ -17,6 +17,11 @@ services:
     volumes:
       - ./:/var/www/html
       - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    environment:
+      - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
+      - JWT_PUBLIC_KEY=${JWT_PUBLIC_KEY}
+      - JWT_PASSPHRASE=${JWT_PASSPHRASE}
+      - JWT_CERT=${JWT_CERT}
 
   postgres:
     image: postgres:12
