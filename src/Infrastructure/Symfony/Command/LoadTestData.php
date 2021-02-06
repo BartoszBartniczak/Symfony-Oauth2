@@ -6,12 +6,12 @@ namespace App\Infrastructure\Symfony\Command;
 
 use App\Application\Command\Command as ApplicationCommand;
 use App\Application\Exception\CommandHandlerFailed;
-use App\Infrastructure\Symfony\Service\CommandBus;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use App\Application\Service\CommandBus;
 
 class LoadTestData extends Command
 {

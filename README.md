@@ -2,6 +2,8 @@ Symfony OAuth2
 ==============
 Symfony with implementation of OAuth2 protocol
 -------------------------------------------------------------
+[![codecov](https://codecov.io/gh/BartoszBartniczak/Symfony-Oauth2/branch/master/graph/badge.svg?token=58XR3HWP2A)](https://codecov.io/gh/BartoszBartniczak/Symfony-Oauth2)
+-----
 
 ### What this project contains?
 This is just a simple configuration of Symfony 5 application, with OAuth2 used for authorization. For OAuth2, I used [trikoder/oauth2-bundle](https://github.com/trikoder/oauth2-bundle) library.
