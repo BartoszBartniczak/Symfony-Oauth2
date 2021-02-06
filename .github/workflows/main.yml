@@ -45,7 +45,7 @@ jobs:
         run: docker-compose exec -T php bin/console dev:load-test-data
 
       - name: Run tests
-        run: docker-compose exec -T php bin/phpunit --configuration phpunit.xml.dist
+        run: docker-compose exec -T php bin/phpunit --configuration phpunit.xml.dist --coverage-clover=coverage.xml
 
       - name: Codecov report
         env:
