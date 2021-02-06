@@ -42,7 +42,7 @@ jobs:
           docker-compose exec -T php bin/console trikoder:oauth2:create-client --public --scope admin_api --grant-type password react-admin-app
 
       - name: Load test data
-        run: docker-compose exec php -T bin/console dev:load-test-data --no-interaction
+        run: docker-compose exec -T php bin/console dev:load-test-data
 
       - name: Run tests
-        run: docker-compose exec php -T bin/phpunit --configuration phpunit.xml.dist
+        run: docker-compose exec -T php bin/phpunit --configuration phpunit.xml.dist
